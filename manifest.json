@@ -1,0 +1,18 @@
+{
+  "name": "Projects Card Highlighter",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "yeah",
+  "icons": {
+    "128": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/orgs/*/projects/*", 
+        "https://github.com/*/*/projects/*"
+      ],
+      "js": ["script.js"]
+    }
+  ]
+}
