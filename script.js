@@ -13,20 +13,23 @@ window.onload = function() {
 				const card = cards[i];
 				const repo = card.getAttribute("data-card-repo");
 				//console.log("repo name:" + repo);
-				switch (repo) {
-					case null: //just a card
-						card.style.backgroundColor = '#FFFFEE';
-						break;
-					case "[\"ogapants/projectscardhighlighter2\"]":
-						card.style.backgroundColor = '#E6F7FF';
-						break;
-					case "[\"ogapants/projectscardhighlighter2\"]":
-						card.style.backgroundColor = '#FFE6E6';
-						break;
-					default:
-						card.style.backgroundColor = '#D3D5D8';
-				}
+				const color = getHighlightColor(repo);
+				card.style.backgroundColor = color;
 			};
 		}
-}
+	}
 };
+
+// fixme: Load from yaml file
+function getHighlightColor(repo){
+	switch (repo) {
+		case null: //just a card
+			return '#FFFFEE';
+		case "[\"ogapants/projectscardhighlighter2\"]":
+			return '#E6F7FF';
+		case "[\"ogapants/projectscardhighlighter3\"]":
+			return '#FFE6E6';
+		default:
+			return '#D3D5D8';
+	}
+}
