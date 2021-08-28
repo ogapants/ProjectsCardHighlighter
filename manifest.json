@@ -1,6 +1,6 @@
 {
   "name": "Projects Card Highlighter",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "manifest_version": 2,
   "description": "yeah",
   "icons": {
@@ -11,7 +11,11 @@
       "matches": [
         "https://github.com/*/*/projects/*"
       ],
-      "js": ["script.js"]
+      "js": [
+        "js/myColors.js",
+        "js/sampleColors.js",
+        "js/script.js"
+      ]
     }
   ]
 }
