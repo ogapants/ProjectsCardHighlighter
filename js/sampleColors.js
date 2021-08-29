@@ -1,5 +1,5 @@
 const sampleColors = {
-	"ogapants/projectscardhighlighter": "#E6F7FF",
-	"note": "#FFFFEE", //just a note
-	"default": "#D3D5D8" //undefined repos color
+	"ogapants/projectscardhighlighter": "#e3f2fd",
+	"note": "#fffde7", //just a note
+	"default": "#e8f5e9" //undefined repos color
 }
