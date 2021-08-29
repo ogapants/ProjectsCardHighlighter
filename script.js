@@ -1,8 +1,9 @@
-window.onload = function() {
+window.onload = function () {
 	let count = 0;
-	const jsInitCheckTimer = setInterval(jsLoaded, 2_000);
-	function jsLoaded() {
-		const cards = document.getElementsByClassName("issue-card project-card position-relative rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card js-socket-channel js-updatable-content draggable js-keyboard-movable");
+	const jsInitCheckTimer = setInterval(() => {
+		const cards = document.getElementsByClassName("issue-card project-card position-relative " +
+			"rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card " +
+			"js-socket-channel js-updatable-content draggable js-keyboard-movable");
 		count++;
 		console.log(`cards.length:${cards.length}, count:${count}`)
 
@@ -17,11 +18,11 @@ window.onload = function() {
 				card.style.backgroundColor = color;
 			};
 		}
-	}
+	}, 2_000);
 };
 
 // fixme: Load from yaml file
-function getHighlightColor(repo){
+const getHighlightColor = (repo) => {
 	switch (repo) {
 		case null: //just a card
 			return '#FFFFEE';
