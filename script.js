@@ -1,5 +1,5 @@
 window.onload = function() {
-	var count = 0;
+	let count = 0;
 	const jsInitCheckTimer = setInterval(jsLoaded, 2_000);
 	function jsLoaded() {
 		const cards = document.getElementsByClassName("issue-card project-card position-relative rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card js-socket-channel js-updatable-content draggable js-keyboard-movable");

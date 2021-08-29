@@ -1,5 +1,5 @@
 window.onload = function() {
-	var retryCount = 0
+	let retryCount = 0
 	const intervalTime = 2_000//fixme
 	const jsInitCheckTimer = setInterval(jsLoaded, intervalTime)
 	function jsLoaded() {
@@ -20,7 +20,7 @@ window.onload = function() {
 	}
 };
 
-var colorsMap
+let colorsMap
 if (typeof myColors == 'undefined') {
 	colorsMap = sampleColors
 } else {
