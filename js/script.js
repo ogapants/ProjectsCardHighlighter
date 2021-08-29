@@ -28,10 +28,13 @@ function generateColorObj() {
 	} else {
 		colorObj = myColors
 	}
+	//console.log(colorObj)
 	for (let key in colorObj) {
-		//fixme: toLowerCase
-		console.log('key:' + key + ' value:' + colorObj[key])
+		const lowerKey = key.toLowerCase()
+		colorObj[lowerKey] = colorObj[key]
+		delete colorObj.key//FIXME: dont work...
 	}
+	console.log(colorObj)
 	return colorObj
 }
 
@@ -50,6 +53,7 @@ function findHighlightColor(colorObj, repo) {
 	}
 }
 
+//FIXME: change to "addSymbols" in generateColorObj()
 function removeSymbols(repo) {
 	//["account/repo"] -> account/repo
 	return repo.replace(/^\["/, "").replace(/\"]$/, "")
