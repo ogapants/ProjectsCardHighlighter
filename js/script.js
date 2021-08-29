@@ -1,6 +1,6 @@
 window.onload = () => {
 	let retryCount = 0
-	const intervalTime = 2_000//fixme
+	const intervalTime = 2_000 //fixme
 	const jsInitCheckTimer = setInterval(() => {
 		const cards = document.querySelectorAll("[class^='issue-card project-card position-relative " +
 			"rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card js-socket-channel " +
@@ -8,13 +8,12 @@ window.onload = () => {
 		retryCount++
 		console.log(`PCH/ cards.length:${cards.length}, count:${retryCount}`)
 
-		if(cards.length > 0 || retryCount > 2){
+		if (cards.length > 0 || retryCount > 2) {
 			clearInterval(jsInitCheckTimer)
 
 			cards.forEach((card) => {
 				const repo = card.getAttribute("data-card-repo")
-				const color = findHighlightColor(repo)
-				card.style.backgroundColor = color
+				card.style.backgroundColor = findHighlightColor(repo)
 				console.log(`PCH/ repo name:${repo}, color code:${repo}`)
 			});
 		}

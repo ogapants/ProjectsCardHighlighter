@@ -7,16 +7,15 @@ window.onload = function () {
 		count++;
 		console.log(`cards.length:${cards.length}, count:${count}`)
 
-		if(cards.length > 0 || count > 2){
+		if (cards.length > 0 || count > 2) {
 			clearInterval(jsInitCheckTimer);
 
-			for(var i = 0; i < cards.length; i++){
+			for (let i = 0; i < cards.length; i++) {
 				const card = cards[i];
 				const repo = card.getAttribute("data-card-repo");
 				//console.log("repo name:" + repo);
-				const color = getHighlightColor(repo);
-				card.style.backgroundColor = color;
-			};
+				card.style.backgroundColor = getHighlightColor(repo);
+			}
 		}
 	}, 2_000);
 };
