@@ -21,7 +21,7 @@ window.onload = function() {
 };
 
 let colorsMap
-if (typeof myColors == 'undefined') {
+if (typeof myColors === 'undefined') {
 	colorsMap = sampleColors
 } else {
 	colorsMap = myColors
@@ -29,7 +29,7 @@ if (typeof myColors == 'undefined') {
 
 function findHighlightColor(repo) {
 	const color = colorsMap.get(repo)
-	if (color == null) {
+	if (color === null) {
 		return colorsMap.get("default_color")
 	}
 	return color
