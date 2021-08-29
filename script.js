@@ -25,9 +25,9 @@ function getHighlightColor(repo){
 	switch (repo) {
 		case null: //just a card
 			return '#FFFFEE';
-		case "[\"ogapants/projectscardhighlighter2\"]":
+		case '["ogapants/projectscardhighlighter2"]':
 			return '#E6F7FF';
-		case "[\"ogapants/projectscardhighlighter3\"]":
+		case '["ogapants/projectscardhighlighter3"]':
 			return '#FFE6E6';
 		default:
 			return '#D3D5D8';
