@@ -5,32 +5,52 @@ window.onload = function() {
 	function jsLoaded() {
 		const cards = document.querySelectorAll("[class^='issue-card project-card position-relative rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card js-socket-channel js-updatable-content']")
 		retryCount++
-		console.log("PCH/ cards.length:" + cards.length + ", count:" + retryCount)
+		console.log("PCH/ cards.length:" + cards.length + ", retryCount:" + retryCount)
 
 		if(cards.length > 0 || retryCount > 2){
 			clearInterval(jsInitCheckTimer)
 
+			const colorObj = generateColorObj()
 			cards.forEach(function(card) {
 				const repo = card.getAttribute("data-card-repo")
-				const color = findHighlightColor(repo)
+				const color = findHighlightColor(colorObj, repo)
 				card.style.backgroundColor = color
-				console.log("PCH/ repo name:" + repo + ", color code:" + repo)
-			});
+				//console.log("PCH/ repo name:" + repo + ", color code:" + color)
+			})
 		}
 	}
 };
 
-var colorsMap
-if (typeof myColors == 'undefined') {
-	colorsMap = sampleColors
-} else {
-	colorsMap = myColors
+function generateColorObj() {
+	var colorObj
+	if (typeof myColors == 'undefined') {
+		colorObj = sampleColors
+	} else {
+		colorObj = myColors
+	}
+	for (let key in colorObj) {
+		//fixme: toLowerCase
+		console.log('key:' + key + ' value:' + colorObj[key])
+	}
+	return colorObj
 }
 
-function findHighlightColor(repo) {
-	const color = colorsMap.get(repo)
-	if (color == null) {
-		return colorsMap.get("default_color")
+function findHighlightColor(colorObj, repo) {
+	if (repo == null) {
+		//just a note
+		return colorObj["note"]
 	}
-	return color
+	const repoName = removeSymbols(repo)
+	if (repoName in colorObj) {
+		//defined repos color
+		return colorObj[repoName]
+	} else {
+		//undefined repos color
+		return colorObj["default"]
+	}
+}
+
+function removeSymbols(repo) {
+	//["account/repo"] -> account/repo
+	return repo.replace(/^\["/, "").replace(/\"]$/, "")
 }
