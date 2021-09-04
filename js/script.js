@@ -30,19 +30,12 @@ function generateColorObj() {
 	}
 	//console.log(colorObj) //before
 
-	const oldKeys = []
+	const newObj = {}
 	for (let key in colorObj) {
-		const converted = convertKey(key)
-		if (converted != null) {
-			colorObj[converted] = colorObj[key]
-			oldKeys.push(key)
-		}
+		newObj[convertKey(key)] = colorObj[key]
 	}
-	for (const key of oldKeys) {
-		delete colorObj[key]// remove useless value
-	}
-	console.log(colorObj) //after
-	return colorObj
+	console.log(newObj) //after
+	return newObj
 }
 
 /**
@@ -52,7 +45,7 @@ function generateColorObj() {
 function convertKey(key) {
 	if (key === "note" || key === "default") {
 		//defined keys
-		return null
+		return key
 	}
 	const lowered = key.toLowerCase()
 	const symboled = lowered.replace(/^/, "[\"").replace(/$/, "\"]")
