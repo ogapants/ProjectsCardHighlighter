@@ -29,12 +29,17 @@ function generateColorObj() {
 		colorObj = myColors
 	}
 	//console.log(colorObj) //before
+
+	const oldKeys = []
 	for (let key in colorObj) {
 		const converted = convertKey(key)
 		if (converted != null) {
 			colorObj[converted] = colorObj[key]
-			delete colorObj.key//FIXME: dont work...
+			oldKeys.push(key)
 		}
+	}
+	for (const key of oldKeys) {
+		delete colorObj[key]// remove useless value
 	}
 	console.log(colorObj) //after
 	return colorObj
