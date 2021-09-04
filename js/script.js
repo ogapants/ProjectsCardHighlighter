@@ -29,13 +29,24 @@ function generateColorObj() {
 		colorObj = myColors
 	}
 	//console.log(colorObj)
+
 	for (let key in colorObj) {
-		const lowerKey = key.toLowerCase()
-		colorObj[lowerKey] = colorObj[key]
+		colorObj[convertKey(key)] = colorObj[key]
 		delete colorObj.key//FIXME: dont work...
 	}
+
 	console.log(colorObj)
 	return colorObj
+}
+
+/**
+ * Convert from general format to Attribute format.
+ * ex: PCH -> ["pch"]
+ */
+function convertKey(key) {
+	const lowered = key.toLowerCase()
+	const symboled = lowered.replace(/^/, "[\"").replace(/$/, "\"]")
+	return symboled;
 }
 
 function findHighlightColor(colorObj, repo) {
@@ -43,18 +54,11 @@ function findHighlightColor(colorObj, repo) {
 		//just a note
 		return colorObj["note"]
 	}
-	const repoName = removeSymbols(repo)
-	if (repoName in colorObj) {
+	if (repo in colorObj) {
 		//defined repos color
-		return colorObj[repoName]
+		return colorObj[repo]
 	} else {
 		//undefined repos color
 		return colorObj["default"]
 	}
-}
-
-//FIXME: change to "addSymbols" in generateColorObj()
-function removeSymbols(repo) {
-	//["account/repo"] -> account/repo
-	return repo.replace(/^\["/, "").replace(/\"]$/, "")
 }
