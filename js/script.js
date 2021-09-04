@@ -28,14 +28,15 @@ function generateColorObj() {
 	} else {
 		colorObj = myColors
 	}
-	//console.log(colorObj)
-
+	//console.log(colorObj) //before
 	for (let key in colorObj) {
-		colorObj[convertKey(key)] = colorObj[key]
-		delete colorObj.key//FIXME: dont work...
+		const converted = convertKey(key)
+		if (converted != null) {
+			colorObj[converted] = colorObj[key]
+			delete colorObj.key//FIXME: dont work...
+		}
 	}
-
-	console.log(colorObj)
+	console.log(colorObj) //after
 	return colorObj
 }
 
@@ -44,6 +45,10 @@ function generateColorObj() {
  * ex: PCH -> ["pch"]
  */
 function convertKey(key) {
+	if (key === "note" || key === "default") {
+		//defined keys
+		return null
+	}
 	const lowered = key.toLowerCase()
 	const symboled = lowered.replace(/^/, "[\"").replace(/$/, "\"]")
 	return symboled;
