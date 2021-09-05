@@ -5,8 +5,7 @@ window.onload = function() {
 	function jsLoaded() {
 		const cards = document.querySelectorAll("[class^='issue-card project-card position-relative rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card js-socket-channel js-updatable-content']")
 		retryCount++
-		console.log("PCH/ cards.length:" + cards.length + ", retryCount:" + retryCount)
-
+		console.log(`PCH/ cards.length:${cards.length}, retryCount:${retryCount}`)
 		if(cards.length > 0 || retryCount > 2){
 			clearInterval(jsInitCheckTimer)
 
@@ -15,7 +14,7 @@ window.onload = function() {
 				const repo = card.getAttribute("data-card-repo")
 				const color = findHighlightColor(colorObj, repo)
 				card.style.backgroundColor = color
-				//console.log("PCH/ repo name:" + repo + ", color code:" + color)
+				console.log(`PCH/ repo name:${repo}, color code:${color}`)
 			})
 		}
 	}
