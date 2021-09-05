@@ -22,7 +22,7 @@ window.onload = function() {
 
 function generateColorObj() {
 	let colorObj
-	if (typeof myColors == 'undefined') {
+	if (typeof myColors === 'undefined') {
 		colorObj = sampleColors
 	} else {
 		colorObj = myColors
@@ -52,7 +52,7 @@ function convertKey(key) {
 }
 
 function findHighlightColor(colorObj, repo) {
-	if (repo == null) {
+	if (repo === null) {
 		//just a note
 		return colorObj["note"]
 	}
