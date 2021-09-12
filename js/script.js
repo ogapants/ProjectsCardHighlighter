@@ -21,7 +21,7 @@ window.onload = () => {
 
 const generateColorObj = () => {
 	let colorObj
-	if (typeof myColors === 'undefined') {
+	if (typeof myColors === "undefined") {
 		colorObj = sampleColors
 	} else {
 		colorObj = myColors
