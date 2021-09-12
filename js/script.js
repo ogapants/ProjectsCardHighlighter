@@ -1,23 +1,49 @@
 window.onload = () => {
-	let retryCount = 0
-	const intervalTime = 2_000//fixme
-	const jsInitCheckTimer = setInterval(() => {
-		const cards = document.querySelectorAll("[class^='issue-card project-card position-relative rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card js-socket-channel js-updatable-content']")
-		retryCount++
-		console.log(`PCH/ cards.length:${cards.length}, retryCount:${retryCount}`)
-		if (cards.length > 0 || retryCount > 2) {
-			clearInterval(jsInitCheckTimer)
+	checkLoadingCards()
+};
 
-			const colorObj = generateColorObj()
-			cards.forEach(card => {
-				const repo = card.getAttribute("data-card-repo")
-				const color = findHighlightColor(colorObj, repo)
-				card.style.backgroundColor = color
-				//console.log(`PCH/ repo name:${repo}, color code:${color}`)
-			})
-		}
-	}, intervalTime)
+const paintCards = column => {
+	const cards = column.querySelectorAll(".project-card")
+	if (cards.length > 0) {
+		const colorObj = generateColorObj()
+		cards.forEach(card => {
+			const repo = card.getAttribute("data-card-repo")
+			card.style.backgroundColor = findHighlightColor(colorObj, repo)
+			//console.log(`PCH/ repo name:${repo}, color code:${color}`)
+		})
+	}
 }
+
+const checkLoadingCards = () => {
+	const columnCards = document.querySelectorAll(".js-project-column-cards")
+
+	const config = {childList: true};
+	columnCards.forEach(column => {
+		const cards = column.querySelectorAll(".project-card")
+		if (cards.length > 0) {
+			// ネットをスロットリングすると拡張機能が画面のロード後に実行されるので既に存在する場合は色を付けて終了
+			// console.log("already cards exists")
+			paintCards(column)
+		} else {
+			// カードがない場合はまだ読み込まれていないのでObserverを設定する
+			// console.log("need to observe")
+			const observer = new MutationObserver((mutationsList, observer) => {
+				// 初回カードが追加される時はローディングが取り除かれてカードが追加されるため以下のチェックを入れる
+				// カードがなくドラッグ＆ドロップされた時はremovedNodesが存在しないのでカードの色を変えない
+				if (
+					mutationsList[0].removedNodes.length > 0 &&
+					mutationsList[0].addedNodes.length > 0
+				) {
+					paintCards(column)
+				}
+
+				// 一回実行したらObserverを停止する
+				observer.disconnect()
+			});
+			observer.observe(column, config)
+		}
+	})
+};
 
 const generateColorObj = () => {
 	let colorObj
