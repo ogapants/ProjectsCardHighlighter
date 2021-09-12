@@ -9,7 +9,7 @@ window.onload = () => {
 			clearInterval(jsInitCheckTimer)
 
 			const colorObj = generateColorObj()
-			cards.forEach(function (card) {
+			cards.forEach(card => {
 				const repo = card.getAttribute("data-card-repo")
 				const color = findHighlightColor(colorObj, repo)
 				card.style.backgroundColor = color
