@@ -16,8 +16,8 @@ window.onload = () => {
 				//console.log(`PCH/ repo name:${repo}, color code:${color}`)
 			})
 		}
-	}, intervalTime);
-};
+	}, intervalTime)
+}
 
 const generateColorObj = () => {
 	let colorObj
@@ -45,9 +45,10 @@ const convertKey = (key) => {
 		//defined keys
 		return key
 	}
-	const lowered = key.toLowerCase()
-	const symboled = lowered.replace(/^/, "[\"").replace(/$/, "\"]")
-	return symboled;
+	return key
+		.toLowerCase()
+		.replace(/^/, "[\"")
+		.replace(/$/, "\"]")
 }
 
 const findHighlightColor = (colorObj, repo) => {
