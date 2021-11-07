@@ -1,23 +1,58 @@
 window.onload = () => {
-	let retryCount = 0
-	const intervalTime = 2_000//fixme
-	const jsInitCheckTimer = setInterval(() => {
-		const cards = document.querySelectorAll("[class^='issue-card project-card position-relative rounded-2 color-shadow-small my-2 mx-0 border ws-normal js-project-column-card js-socket-channel js-updatable-content']")
-		retryCount++
-		console.log(`PCH/ cards.length:${cards.length}, retryCount:${retryCount}`)
-		if (cards.length > 0 || retryCount > 2) {
-			clearInterval(jsInitCheckTimer)
+	checkLoadingCards()
+};
 
-			const colorObj = generateColorObj()
-			cards.forEach(card => {
-				const repo = card.getAttribute("data-card-repo")
-				const color = findHighlightColor(colorObj, repo)
-				card.style.backgroundColor = color
-				//console.log(`PCH/ repo name:${repo}, color code:${color}`)
-			})
-		}
-	}, intervalTime)
+const paintCards = column => {
+	const cards = column.querySelectorAll(".project-card")
+	if (cards.length > 0) {
+		const colorObj = generateColorObj()
+		cards.forEach(card => {
+			const repo = card.getAttribute("data-card-repo")
+			card.style.backgroundColor = findHighlightColor(colorObj, repo)
+			//console.log(`PCH/ repo name:${repo}, color code:${color}`)
+		})
+	}
 }
+
+const checkLoadingCards = () => {
+	// カード枚数を取得するためにproject-column毎に取得する
+	const columnCards = document.querySelectorAll(".project-column")
+
+	const config = {childList: true};
+	columnCards.forEach(column => {
+		// Counterからカード枚数を取得する
+		const numOfCards = parseInt(column.querySelector(".Counter").getAttribute("title"), 10)
+		// カードのリストを取得する（既に読み込まれていないかチェック）
+		const cards = column.querySelectorAll(".project-card")
+		// Observe対象の最小のカラムを取得する
+		const cardsColumn = column.querySelector(".js-project-column-cards")
+		if (cards.length > 0) {
+			// ネットをスロットリングすると拡張機能が画面のロード後に実行されるので既に存在する場合は色を付けて終了
+			// console.log("already cards exists")
+			paintCards(column)
+		} else {
+			// カードがない場合はまだ読み込まれていないのでObserverを設定する
+			// console.log("need to observe")
+			const NUM_OF_CARDS_LOADED_EACH_TIME = 25.0
+			// 一度に読み込まれるカード枚数から何回APIコールされるか割り出す
+			const numOfAPICall = Math.ceil(numOfCards / NUM_OF_CARDS_LOADED_EACH_TIME);
+			let counter = 0
+			const observer = new MutationObserver((mutationsList, observer) => {
+				// 初回カードが追加される時はローディングが取り除かれてカードが追加されるため以下のチェックを入れる
+				// カードがなくドラッグ＆ドロップされた時はremovedNodesが存在しないのでカードの色を変えない
+				paintCards(cardsColumn)
+				counter++
+				if (
+					counter === numOfAPICall
+				) {
+					// 必要回数実行したらObserverを停止する
+					observer.disconnect()
+				}
+			});
+			observer.observe(cardsColumn, config)
+		}
+	})
+};
 
 const generateColorObj = () => {
 	let colorObj
